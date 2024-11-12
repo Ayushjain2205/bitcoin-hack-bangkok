@@ -5,7 +5,7 @@ import { motion, useAnimation, useInView } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Brain, Zap, Star, Sparkles, Trophy } from "lucide-react";
-import Layout from "@/components/layout";
+import Layout from "@/components/Layout";
 import { useEffect as useEffect2, useState as useState2 } from "react"; //This import was already present, so no need to add it again
 
 interface Agent {
