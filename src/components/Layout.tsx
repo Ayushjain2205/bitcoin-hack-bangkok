@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
 interface LayoutProps {
@@ -7,6 +10,8 @@ interface LayoutProps {
 }
 
 export default function Layout({ children }: LayoutProps) {
+  const pathname = usePathname();
+
   return (
     <div className="min-h-screen flex flex-col">
       <header className="border-b">
@@ -26,24 +31,23 @@ export default function Layout({ children }: LayoutProps) {
             </Link>
 
             <div className="hidden md:flex items-center space-x-6">
-              <Link
-                href="/create"
-                className="text-sm font-medium text-gray-700 hover:text-purple-600 transition-colors"
-              >
-                Create
-              </Link>
-              <Link
-                href="/explore"
-                className="text-sm font-medium text-gray-700 hover:text-purple-600 transition-colors"
-              >
-                Explore
-              </Link>
-              <Link
-                href="/docs"
-                className="text-sm font-medium text-gray-700 hover:text-purple-600 transition-colors"
-              >
-                Docs
-              </Link>
+              {[
+                { href: "/create", label: "Create" },
+                { href: "/", label: "Explore" },
+                { href: "/agent", label: "Agents" },
+              ].map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`text-sm font-medium transition-colors ${
+                    pathname === link.href
+                      ? "text-purple-600 border-b-2 border-purple-600"
+                      : "text-gray-700 hover:text-purple-600"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
             </div>
 
             <div className="flex items-center space-x-4">
