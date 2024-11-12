@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { Orbitron } from "next/font/google";
+import { ThirdwebProvider } from "thirdweb/react";
 
 const orbitron = Orbitron({
   subsets: ["latin"],
@@ -10,8 +11,10 @@ const orbitron = Orbitron({
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <main className={orbitron.className}>
-      <Component {...pageProps} />
-    </main>
+    <ThirdwebProvider>
+      <main className={orbitron.className}>
+        <Component {...pageProps} />
+      </main>
+    </ThirdwebProvider>
   );
 }
