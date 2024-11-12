@@ -252,39 +252,44 @@ export default function AgentProfile() {
                   </CardContent>
                 </Card>
 
-                {/* Functionality Tiers */}
+                {/* Holder Distribution */}
                 <Card className="bg-white/80 backdrop-blur-sm border-purple-300">
                   <CardHeader>
                     <CardTitle className="text-2xl font-bold text-purple-800">
-                      Functionality Tiers
+                      Holder Distribution (1021 holders)
                     </CardTitle>
                   </CardHeader>
-                  <CardContent className="space-y-4">
-                    {[1, 2, 3, 4, 5].map((tier) => (
+                  <CardContent className="space-y-3 max-h-[500px] overflow-y-auto">
+                    {[
+                      {
+                        address: "0x3268...27cd04",
+                        percent: 23.13,
+                        isContract: true,
+                      },
+                      { address: "0x2fd5...bed7c5", percent: 6.04 },
+                      { address: "0xbd45...1c87e1", percent: 5.8 },
+                      { address: "0xf3cb...af2edf", percent: 4.31 },
+                      { address: "0x860c...6475d6", percent: 3.22 },
+                      { address: "0xe967...b4307d", percent: 1.67 },
+                      { address: "0xd2bb...1a3bb0", percent: 1.62 },
+                      { address: "0x36cc...75414f", percent: 1.6 },
+                      { address: "0x4e08...a13e82", percent: 1.41 },
+                      { address: "0x5ebc...71944e", percent: 1.12 },
+                    ].map((holder, index) => (
                       <div
-                        key={tier}
-                        className="p-4 rounded-lg bg-gradient-to-r from-purple-100 to-pink-100 flex items-center justify-between"
+                        key={holder.address}
+                        className="flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-purple-100 to-pink-100"
                       >
-                        <div className="flex items-center space-x-3">
-                          <Badge
-                            variant="outline"
-                            className={`${
-                              tier <= 3
-                                ? "bg-green-100 text-green-800"
-                                : "bg-gray-100 text-gray-800"
-                            }`}
-                          >
-                            Tier {tier}
-                          </Badge>
-                          <span className="text-sm text-purple-800">
-                            {tier <= 3 ? "Unlocked" : "Locked"}
+                        <div className="flex items-center space-x-2">
+                          <span className="text-purple-800">{index + 1}.</span>
+                          <span className="text-purple-800 font-medium">
+                            {holder.address}{" "}
+                            {holder.isContract && "🏛️ (contract)"}
                           </span>
                         </div>
-                        <Activity
-                          className={`w-5 h-5 ${
-                            tier <= 3 ? "text-green-500" : "text-gray-400"
-                          }`}
-                        />
+                        <span className="text-purple-900 font-bold">
+                          {holder.percent}%
+                        </span>
                       </div>
                     ))}
                   </CardContent>
