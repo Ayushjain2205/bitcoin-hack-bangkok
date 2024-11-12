@@ -15,6 +15,9 @@ import {
   TrendingUp,
   Activity,
   Sparkles,
+  Music,
+  Palette,
+  Lightbulb,
 } from "lucide-react";
 import {
   Area,
@@ -64,6 +67,18 @@ const thoughts = [
   },
 ];
 
+// Mock agent data
+const agentData = {
+  name: "Groovy Analytics Agent",
+  image:
+    "https://s3.ap-southeast-1.amazonaws.com/virtualprotocolcdn/Convo_Agent_89ef084f87.png",
+  traits: ["Analytical", "Creative", "Strategic", "Empathetic"],
+  funkinessLevel: 85,
+  grooveFactor: 92,
+  creativityIndex: 78,
+  soulfulness: 88,
+};
+
 export default function AgentProfile() {
   const [activeTab, setActiveTab] = useState("overview");
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
@@ -95,8 +110,12 @@ export default function AgentProfile() {
             <Card className="bg-white/80 backdrop-blur-sm border-purple-300">
               <CardHeader className="flex flex-row items-center justify-between">
                 <div className="flex items-center space-x-4">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
-                    <Brain className="w-8 h-8 text-white" />
+                  <div className="w-24 h-24 rounded-lg overflow-hidden">
+                    <img
+                      src={agentData.image}
+                      alt={agentData.name}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                   <div>
                     <CardTitle className="text-3xl font-bold relative">
@@ -115,7 +134,7 @@ export default function AgentProfile() {
                           repeatType: "reverse",
                         }}
                       >
-                        Groovy Analytics Agent
+                        {agentData.name}
                       </motion.span>
                     </CardTitle>
                     <div className="flex items-center space-x-2 mt-1">
@@ -144,8 +163,96 @@ export default function AgentProfile() {
             </Card>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Left Column - Chart & Thoughts */}
+              {/* Left Column - Agent Details & Chart */}
               <div className="lg:col-span-2 space-y-8">
+                {/* Agent Traits and Levels */}
+                <Card className="bg-white/80 backdrop-blur-sm border-purple-300">
+                  <CardHeader>
+                    <CardTitle className="text-2xl font-bold text-purple-800">
+                      Agent Traits & Levels
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex flex-wrap gap-2">
+                      {agentData.traits.map((trait) => (
+                        <Badge
+                          key={trait}
+                          className="bg-gradient-to-r from-purple-400 to-pink-400 text-white"
+                        >
+                          {trait}
+                        </Badge>
+                      ))}
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-medium text-purple-800 flex items-center">
+                            <Zap className="w-4 h-4 mr-2" /> Funkiness Level
+                          </span>
+                          <span className="text-sm font-bold text-purple-900">
+                            {agentData.funkinessLevel}%
+                          </span>
+                        </div>
+                        <div className="h-2 bg-purple-200 rounded-full">
+                          <div
+                            className="h-full bg-purple-500 rounded-full"
+                            style={{ width: `${agentData.funkinessLevel}%` }}
+                          ></div>
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-medium text-purple-800 flex items-center">
+                            <Music className="w-4 h-4 mr-2" /> Groove Factor
+                          </span>
+                          <span className="text-sm font-bold text-purple-900">
+                            {agentData.grooveFactor}%
+                          </span>
+                        </div>
+                        <div className="h-2 bg-pink-200 rounded-full">
+                          <div
+                            className="h-full bg-pink-500 rounded-full"
+                            style={{ width: `${agentData.grooveFactor}%` }}
+                          ></div>
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-medium text-purple-800 flex items-center">
+                            <Palette className="w-4 h-4 mr-2" /> Creativity
+                            Index
+                          </span>
+                          <span className="text-sm font-bold text-purple-900">
+                            {agentData.creativityIndex}%
+                          </span>
+                        </div>
+                        <div className="h-2 bg-yellow-200 rounded-full">
+                          <div
+                            className="h-full bg-yellow-500 rounded-full"
+                            style={{ width: `${agentData.creativityIndex}%` }}
+                          ></div>
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-medium text-purple-800 flex items-center">
+                            <Lightbulb className="w-4 h-4 mr-2" /> Soulfulness
+                          </span>
+                          <span className="text-sm font-bold text-purple-900">
+                            {agentData.soulfulness}%
+                          </span>
+                        </div>
+                        <div className="h-2 bg-blue-200 rounded-full">
+                          <div
+                            className="h-full bg-blue-500 rounded-full"
+                            style={{ width: `${agentData.soulfulness}%` }}
+                          ></div>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
                 {/* Price Chart */}
                 <Card className="bg-white/80 backdrop-blur-sm border-purple-300">
                   <CardHeader>
