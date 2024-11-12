@@ -99,8 +99,24 @@ export default function AgentProfile() {
                     <Brain className="w-8 h-8 text-white" />
                   </div>
                   <div>
-                    <CardTitle className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-yellow-500">
-                      Groovy Analytics Agent
+                    <CardTitle className="text-3xl font-bold relative">
+                      <motion.span
+                        className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-yellow-500"
+                        animate={{
+                          textShadow: [
+                            "0 0 4px #ff00ff",
+                            "0 0 8px #00ffff",
+                            "0 0 4px #ff00ff",
+                          ],
+                        }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          repeatType: "reverse",
+                        }}
+                      >
+                        Groovy Analytics Agent
+                      </motion.span>
                     </CardTitle>
                     <div className="flex items-center space-x-2 mt-1">
                       <Badge
