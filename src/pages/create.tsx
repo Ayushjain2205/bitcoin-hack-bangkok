@@ -59,7 +59,7 @@ export default function CreateAgent() {
     setIsGeneratingImage(true);
     setTimeout(() => {
       setGeneratedImageUrl(
-        "https://s3.ap-southeast-1.amazonaws.com/virtualprotocolcdn/Convo_Agent_89ef084f87.png"
+        "https://images.playground.com/cm0phrtv201y5fqwy9i6eu6of_original.jpeg"
       );
       setIsGeneratingImage(false);
     }, 12000);

@@ -1,6 +1,6 @@
 import Layout from "@/components/Layout";
 import React from "react";
-import Gateway from "@/components/gateway";
+import Gateway from "@/components/Gateway";
 
 const gateway = () => {
   return (

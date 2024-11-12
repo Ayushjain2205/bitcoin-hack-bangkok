@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Brain, Zap, Star, Sparkles, Trophy } from "lucide-react";
 import Layout from "@/components/Layout";
+import Link from "next/link";
 
 interface Agent {
   id: number;
@@ -14,6 +15,7 @@ interface Agent {
   specialization: string;
   funkinessLevel: number;
 }
+
 const agents: Agent[] = [
   {
     id: 1,
@@ -116,6 +118,7 @@ export default function Home() {
   return (
     <Layout>
       <div className="min-h-screen bg-gradient-to-br from-yellow-200 via-pink-200 to-blue-200 relative overflow-hidden py-12">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCI+CjxyZWN0IHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgZmlsbD0iI2ZmZiI+PC9yZWN0Pgo8Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIyMCIgc3Ryb2tlPSIjZmYwMGZmIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiPjwvY2lyY2xlPgo8Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIxMCIgc3Ryb2tlPSIjMDBmZmZmIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiPjwvY2lyY2xlPgo8L3N2Zz4=')] opacity-10" />
         <div className="container mx-auto px-4 relative z-10">
           {/* Top Agents Section */}
           <div className="mb-16">
@@ -144,32 +147,31 @@ export default function Home() {
               >
                 {[...topAgents, ...topAgents, ...topAgents, ...topAgents].map(
                   (agent, index) => (
-                    <Card
-                      key={`${agent.id}-${index}`}
-                      className="w-64 flex-shrink-0 bg-white/80 backdrop-blur-sm border-purple-300 shadow-xl overflow-hidden"
-                    >
-                      <CardContent className="p-4">
-                        <img
-                          src={agent.image}
-                          alt={agent.name}
-                          className="w-32 h-32 object-cover rounded-lg mb-4 mx-auto"
-                        />
-                        <h3 className="text-lg font-bold mb-2 text-purple-800">
-                          {agent.name}
-                        </h3>
-                        <div className="flex items-center justify-between">
-                          <Badge className="bg-gradient-to-r from-purple-500 to-pink-500">
-                            {agent.specialization}
-                          </Badge>
-                          <div className="flex items-center">
-                            <Zap className="w-4 h-4 text-yellow-500 mr-1" />
-                            <span className="text-sm font-medium text-purple-700">
-                              {agent.funkinessLevel}
-                            </span>
+                    <Link href="/agent" key={`${agent.id}-${index}`}>
+                      <Card className="w-64 flex-shrink-0 bg-white/80 backdrop-blur-sm border-purple-300 shadow-xl overflow-hidden hover:shadow-2xl transition-shadow duration-300">
+                        <CardContent className="p-4">
+                          <img
+                            src={agent.image}
+                            alt={agent.name}
+                            className="w-32 h-32 object-cover rounded-lg mb-4 mx-auto"
+                          />
+                          <h3 className="text-lg font-bold mb-2 text-purple-800">
+                            {agent.name}
+                          </h3>
+                          <div className="flex items-center justify-between">
+                            <Badge className="bg-gradient-to-r from-purple-500 to-pink-500">
+                              {agent.specialization}
+                            </Badge>
+                            <div className="flex items-center">
+                              <Zap className="w-4 h-4 text-yellow-500 mr-1" />
+                              <span className="text-sm font-medium text-purple-700">
+                                {agent.funkinessLevel}
+                              </span>
+                            </div>
                           </div>
-                        </div>
-                      </CardContent>
-                    </Card>
+                        </CardContent>
+                      </Card>
+                    </Link>
                   )
                 )}
               </motion.div>
@@ -194,64 +196,65 @@ export default function Home() {
             }}
           >
             {agents.map((agent) => (
-              <motion.div
-                key={agent.id}
-                variants={{
-                  hidden: { y: 20, opacity: 0 },
-                  visible: { y: 0, opacity: 1 },
-                }}
-                whileHover={{
-                  scale: 1.05,
-                  rotate: hoveredAgent === agent.id ? [0, -5, 5, -5, 0] : 0,
-                }}
-                onHoverStart={() => setHoveredAgent(agent.id)}
-                onHoverEnd={() => setHoveredAgent(null)}
-              >
-                <Card className="overflow-hidden bg-white/80 backdrop-blur-sm border-purple-300 shadow-xl">
-                  <CardContent className="p-6">
-                    <div className="relative mb-4">
-                      <img
-                        src={agent.image}
-                        alt={agent.name}
-                        className="w-48 h-48 object-cover rounded-lg mx-auto"
-                      />
-                      <Badge className="absolute top-2 right-2 bg-gradient-to-r from-purple-500 to-pink-500">
-                        {agent.specialization}
-                      </Badge>
-                    </div>
-                    <h2 className="text-2xl font-bold mb-2 text-purple-800">
-                      {agent.name}
-                    </h2>
-                    <div className="flex items-center mb-4">
-                      <Brain className="w-5 h-5 text-purple-600 mr-2" />
-                      <span className="text-sm text-purple-700">
-                        {agent.specialization}
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <Zap className="w-5 h-5 text-yellow-500 mr-2" />
-                        <span className="text-sm font-medium text-purple-700">
-                          Funkiness Level
+              <Link href="/agent" key={agent.id}>
+                <motion.div
+                  variants={{
+                    hidden: { y: 20, opacity: 0 },
+                    visible: { y: 0, opacity: 1 },
+                  }}
+                  whileHover={{
+                    scale: 1.05,
+                    rotate: hoveredAgent === agent.id ? [0, -5, 5, -5, 0] : 0,
+                  }}
+                  onHoverStart={() => setHoveredAgent(agent.id)}
+                  onHoverEnd={() => setHoveredAgent(null)}
+                >
+                  <Card className="overflow-hidden bg-white/80 backdrop-blur-sm border-purple-300 shadow-xl hover:shadow-2xl transition-shadow duration-300">
+                    <CardContent className="p-6">
+                      <div className="relative mb-4">
+                        <img
+                          src={agent.image}
+                          alt={agent.name}
+                          className="w-48 h-48 object-cover rounded-lg mx-auto"
+                        />
+                        <Badge className="absolute top-2 right-2 bg-gradient-to-r from-purple-500 to-pink-500">
+                          {agent.specialization}
+                        </Badge>
+                      </div>
+                      <h2 className="text-2xl font-bold mb-2 text-purple-800">
+                        {agent.name}
+                      </h2>
+                      <div className="flex items-center mb-4">
+                        <Brain className="w-5 h-5 text-purple-600 mr-2" />
+                        <span className="text-sm text-purple-700">
+                          {agent.specialization}
                         </span>
                       </div>
-                      <div className="flex items-center">
-                        {[...Array(5)].map((_, index) => (
-                          <Star
-                            key={index}
-                            className={`w-5 h-5 ${
-                              index < Math.floor(agent.funkinessLevel / 20)
-                                ? "text-yellow-500"
-                                : "text-gray-300"
-                            }`}
-                            fill="currentColor"
-                          />
-                        ))}
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center">
+                          <Zap className="w-5 h-5 text-yellow-500 mr-2" />
+                          <span className="text-sm font-medium text-purple-700">
+                            Funkiness Level
+                          </span>
+                        </div>
+                        <div className="flex items-center">
+                          {[...Array(5)].map((_, index) => (
+                            <Star
+                              key={index}
+                              className={`w-5 h-5 ${
+                                index < Math.floor(agent.funkinessLevel / 20)
+                                  ? "text-yellow-500"
+                                  : "text-gray-300"
+                              }`}
+                              fill="currentColor"
+                            />
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              </Link>
             ))}
           </motion.div>
         </div>

@@ -142,7 +142,7 @@ export default function AgentProfile() {
                         variant="outline"
                         className="bg-purple-100 text-purple-800"
                       >
-                        Tier 3
+                        Top
                       </Badge>
                       <Badge
                         variant="outline"
