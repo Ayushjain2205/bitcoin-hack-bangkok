@@ -6,7 +6,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Brain, Zap, Star, Sparkles, Trophy } from "lucide-react";
 import Layout from "@/components/Layout";
-import { useEffect as useEffect2, useState as useState2 } from "react"; //This import was already present, so no need to add it again
 
 interface Agent {
   id: number;
@@ -15,47 +14,52 @@ interface Agent {
   specialization: string;
   funkinessLevel: number;
 }
-
 const agents: Agent[] = [
   {
     id: 1,
     name: "Disco Dan",
-    image: "/placeholder.svg?height=200&width=200",
+    image:
+      "https://s3.ap-southeast-1.amazonaws.com/virtualprotocolcdn/Convo_Agent_89ef084f87.png",
     specialization: "Disco Data Analysis",
     funkinessLevel: 85,
   },
   {
     id: 2,
     name: "Funky Fiona",
-    image: "/placeholder.svg?height=200&width=200",
+    image:
+      "https://s3.ap-southeast-1.amazonaws.com/virtualprotocolcdn/name_599f368aa5.jpeg",
     specialization: "Funk Content Creation",
     funkinessLevel: 92,
   },
   {
     id: 3,
     name: "Jazz Jack",
-    image: "/placeholder.svg?height=200&width=200",
+    image:
+      "https://s3.ap-southeast-1.amazonaws.com/virtualprotocolcdn/name_34c4330acc.png",
     specialization: "Jazz Research Assistant",
     funkinessLevel: 78,
   },
   {
     id: 4,
     name: "Rock Rita",
-    image: "/placeholder.svg?height=200&width=200",
+    image:
+      "https://s3.ap-southeast-1.amazonaws.com/virtualprotocolcdn/name_c89d85529b.png",
     specialization: "Rock Process Automation",
     funkinessLevel: 88,
   },
   {
     id: 5,
     name: "Techno Tim",
-    image: "/placeholder.svg?height=200&width=200",
+    image:
+      "https://s3.ap-southeast-1.amazonaws.com/virtualprotocolcdn/name_4ebbeeec1f.jpeg",
     specialization: "Techno Task Management",
     funkinessLevel: 95,
   },
   {
     id: 6,
     name: "Soulful Sara",
-    image: "/placeholder.svg?height=200&width=200",
+    image:
+      "https://s3.ap-southeast-1.amazonaws.com/virtualprotocolcdn/name_875049faab.png",
     specialization: "Soul Sentiment Analysis",
     funkinessLevel: 89,
   },
@@ -71,6 +75,7 @@ export default function Home() {
   const ref = useRef(null);
   const inView = useInView(ref);
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
+  const [scrollWidth, setScrollWidth] = useState(0);
 
   useEffect(() => {
     function handleResize() {
@@ -97,21 +102,21 @@ export default function Home() {
     }
   }, [controls, inView]);
 
+  useEffect(() => {
+    const calculateScrollWidth = () => {
+      const cardWidth = 256; // 16rem or 256px
+      const gap = 24; // 1.5rem or 24px
+      const totalWidth = topAgents.length * (cardWidth + gap);
+      setScrollWidth(totalWidth);
+    };
+
+    calculateScrollWidth();
+  }, []);
+
   return (
     <Layout>
       <div className="min-h-screen bg-gradient-to-br from-yellow-200 via-pink-200 to-blue-200 relative overflow-hidden py-12">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCI+CjxyZWN0IHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgZmlsbD0iI2ZmZiI+PC9yZWN0Pgo8Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIyMCIgc3Ryb2tlPSIjZmYwMGZmIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiPjwvY2lyY2xlPgo8Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIxMCIgc3Ryb2tlPSIjMDBmZmZmIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiPjwvY2lyY2xlPgo8L3N2Zz4=')] opacity-10" />
-
         <div className="container mx-auto px-4 relative z-10">
-          <motion.h1
-            className="text-5xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-yellow-500"
-            initial={{ opacity: 0, y: -50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            Welcome to the Groovy Agent Showcase
-          </motion.h1>
-
           {/* Top Agents Section */}
           <div className="mb-16">
             <h2 className="text-3xl font-bold mb-6 text-purple-800 flex items-center justify-center">
@@ -125,7 +130,7 @@ export default function Home() {
               <motion.div
                 className="flex space-x-6 absolute"
                 animate={{
-                  x: [0, -1600, 0],
+                  x: [-scrollWidth / 2, 0],
                 }}
                 transition={{
                   x: {
@@ -135,35 +140,38 @@ export default function Home() {
                     ease: "linear",
                   },
                 }}
+                style={{ width: `${scrollWidth * 2}px` }}
               >
-                {[...topAgents, ...topAgents].map((agent, index) => (
-                  <Card
-                    key={`${agent.id}-${index}`}
-                    className="w-64 flex-shrink-0 bg-white/80 backdrop-blur-sm border-purple-300 shadow-xl overflow-hidden"
-                  >
-                    <CardContent className="p-4">
-                      <img
-                        src={agent.image}
-                        alt={agent.name}
-                        className="w-full h-32 object-cover rounded-lg mb-4"
-                      />
-                      <h3 className="text-lg font-bold mb-2 text-purple-800">
-                        {agent.name}
-                      </h3>
-                      <div className="flex items-center justify-between">
-                        <Badge className="bg-gradient-to-r from-purple-500 to-pink-500">
-                          {agent.specialization}
-                        </Badge>
-                        <div className="flex items-center">
-                          <Zap className="w-4 h-4 text-yellow-500 mr-1" />
-                          <span className="text-sm font-medium text-purple-700">
-                            {agent.funkinessLevel}
-                          </span>
+                {[...topAgents, ...topAgents, ...topAgents, ...topAgents].map(
+                  (agent, index) => (
+                    <Card
+                      key={`${agent.id}-${index}`}
+                      className="w-64 flex-shrink-0 bg-white/80 backdrop-blur-sm border-purple-300 shadow-xl overflow-hidden"
+                    >
+                      <CardContent className="p-4">
+                        <img
+                          src={agent.image}
+                          alt={agent.name}
+                          className="w-32 h-32 object-cover rounded-lg mb-4 mx-auto"
+                        />
+                        <h3 className="text-lg font-bold mb-2 text-purple-800">
+                          {agent.name}
+                        </h3>
+                        <div className="flex items-center justify-between">
+                          <Badge className="bg-gradient-to-r from-purple-500 to-pink-500">
+                            {agent.specialization}
+                          </Badge>
+                          <div className="flex items-center">
+                            <Zap className="w-4 h-4 text-yellow-500 mr-1" />
+                            <span className="text-sm font-medium text-purple-700">
+                              {agent.funkinessLevel}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                      </CardContent>
+                    </Card>
+                  )
+                )}
               </motion.div>
             </div>
           </div>
@@ -205,7 +213,7 @@ export default function Home() {
                       <img
                         src={agent.image}
                         alt={agent.name}
-                        className="w-full h-48 object-cover rounded-lg"
+                        className="w-48 h-48 object-cover rounded-lg mx-auto"
                       />
                       <Badge className="absolute top-2 right-2 bg-gradient-to-r from-purple-500 to-pink-500">
                         {agent.specialization}

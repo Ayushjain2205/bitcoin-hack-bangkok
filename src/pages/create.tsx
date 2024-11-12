@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -13,12 +13,28 @@ import {
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
-import { Brain, Cpu, Upload, Sparkles, Zap } from "lucide-react";
+import {
+  Brain,
+  Cpu,
+  Sparkles,
+  Zap,
+  Music,
+  Palette,
+  Lightbulb,
+  Image as ImageIcon,
+  X,
+} from "lucide-react";
 import { motion } from "framer-motion";
 import Layout from "@/components/Layout";
 
 export default function CreateAgent() {
   const [selectedTraits, setSelectedTraits] = useState<string[]>([]);
+  const [funkinessLevel, setFunkinessLevel] = useState(50);
+  const [grooveFactor, setGrooveFactor] = useState(50);
+  const [creativityIndex, setCreativityIndex] = useState(50);
+  const [soulfulness, setSoulfulness] = useState(50);
+  const [isGeneratingImage, setIsGeneratingImage] = useState(false);
+  const [generatedImageUrl, setGeneratedImageUrl] = useState("");
 
   const personalityTraits = [
     "Analytical",
@@ -29,7 +45,31 @@ export default function CreateAgent() {
     "Innovative",
     "Adaptive",
     "Decisive",
+    "Charismatic",
+    "Intuitive",
+    "Resilient",
+    "Visionary",
+    "Collaborative",
+    "Detail-oriented",
+    "Flexible",
+    "Proactive",
   ];
+
+  const handleGenerateImage = () => {
+    setIsGeneratingImage(true);
+    setTimeout(() => {
+      setGeneratedImageUrl(
+        "https://s3.ap-southeast-1.amazonaws.com/virtualprotocolcdn/Convo_Agent_89ef084f87.png"
+      );
+      setIsGeneratingImage(false);
+    }, 12000);
+  };
+
+  const toggleTrait = (trait: string) => {
+    setSelectedTraits((prev) =>
+      prev.includes(trait) ? prev.filter((t) => t !== trait) : [...prev, trait]
+    );
+  };
 
   return (
     <Layout>
@@ -88,15 +128,73 @@ export default function CreateAgent() {
               </div>
 
               <div className="space-y-4">
-                <label className="text-sm font-medium text-purple-800">
-                  Funkiness Level
-                </label>
-                <Slider
-                  defaultValue={[50]}
-                  max={100}
-                  step={1}
-                  className="[&>span]:bg-purple-400"
-                />
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-purple-800 flex items-center">
+                    <Zap className="w-4 h-4 mr-2" />
+                    Funkiness Level
+                  </label>
+                  <Slider
+                    value={[funkinessLevel]}
+                    onValueChange={(value) => setFunkinessLevel(value[0])}
+                    max={100}
+                    step={1}
+                    className="[&>span]:bg-purple-400"
+                  />
+                  <p className="text-xs text-purple-600">
+                    {funkinessLevel}% Funky
+                  </p>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-purple-800 flex items-center">
+                    <Music className="w-4 h-4 mr-2" />
+                    Groove Factor
+                  </label>
+                  <Slider
+                    value={[grooveFactor]}
+                    onValueChange={(value) => setGrooveFactor(value[0])}
+                    max={100}
+                    step={1}
+                    className="[&>span]:bg-pink-400"
+                  />
+                  <p className="text-xs text-purple-600">
+                    {grooveFactor}% Groovy
+                  </p>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-purple-800 flex items-center">
+                    <Palette className="w-4 h-4 mr-2" />
+                    Creativity Index
+                  </label>
+                  <Slider
+                    value={[creativityIndex]}
+                    onValueChange={(value) => setCreativityIndex(value[0])}
+                    max={100}
+                    step={1}
+                    className="[&>span]:bg-yellow-400"
+                  />
+                  <p className="text-xs text-purple-600">
+                    {creativityIndex}% Creative
+                  </p>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-purple-800 flex items-center">
+                    <Lightbulb className="w-4 h-4 mr-2" />
+                    Soulfulness
+                  </label>
+                  <Slider
+                    value={[soulfulness]}
+                    onValueChange={(value) => setSoulfulness(value[0])}
+                    max={100}
+                    step={1}
+                    className="[&>span]:bg-blue-400"
+                  />
+                  <p className="text-xs text-purple-600">
+                    {soulfulness}% Soulful
+                  </p>
+                </div>
 
                 <label className="text-sm font-medium text-purple-800">
                   Groovy Specialization
@@ -130,15 +228,18 @@ export default function CreateAgent() {
                         selectedTraits.includes(trait) ? "default" : "outline"
                       }
                       className="cursor-pointer bg-gradient-to-r from-purple-400 to-pink-400 text-white hover:from-purple-500 hover:to-pink-500 transition-all duration-300"
-                      onClick={() => {
-                        setSelectedTraits(
-                          selectedTraits.includes(trait)
-                            ? selectedTraits.filter((t) => t !== trait)
-                            : [...selectedTraits, trait]
-                        );
-                      }}
+                      onClick={() => toggleTrait(trait)}
                     >
                       {trait}
+                      {selectedTraits.includes(trait) && (
+                        <X
+                          className="w-3 h-3 ml-1"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleTrait(trait);
+                          }}
+                        />
+                      )}
                     </Badge>
                   ))}
                 </div>
@@ -151,20 +252,42 @@ export default function CreateAgent() {
 
               <div className="border-2 border-dashed border-purple-300 rounded-lg p-8 text-center space-y-4 bg-white/30">
                 <div className="flex justify-center">
-                  <Upload className="h-8 w-8 text-purple-400" />
+                  <ImageIcon className="h-8 w-8 text-purple-400" />
                 </div>
                 <div>
-                  <p className="text-purple-800">Upload a funky image or</p>
+                  <p className="text-purple-800">
+                    Generate your agent's funky look
+                  </p>
                   <p className="text-pink-600 font-bold">
-                    generate with Psychedelic Imaging™
+                    Powered by Psychedelic Imaging™
                   </p>
                 </div>
                 <Button
                   variant="outline"
                   className="border-purple-300 text-purple-800 hover:bg-purple-100"
+                  onClick={handleGenerateImage}
+                  disabled={isGeneratingImage}
                 >
-                  Choose Groovy File
+                  {isGeneratingImage ? (
+                    <>
+                      <Sparkles className="mr-2 h-4 w-4 animate-spin" />
+                      Generating...
+                    </>
+                  ) : (
+                    "Generate Agent's Look"
+                  )}
                 </Button>
+                {generatedImageUrl && (
+                  <div className="mt-4">
+                    <div className="w-64 h-64 mx-auto overflow-hidden rounded-lg shadow-lg">
+                      <img
+                        src={generatedImageUrl}
+                        alt="Generated Agent Look"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
 
               <Button className="w-full h-12 bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-500 hover:from-purple-600 hover:via-pink-600 hover:to-yellow-600 text-white font-bold relative overflow-hidden group">
@@ -180,7 +303,7 @@ export default function CreateAgent() {
                   }}
                 />
                 <span className="relative z-10 flex items-center justify-center">
-                  <Zap className="w-5 h-5 mr-2" />
+                  <Sparkles className="w-5 h-5 mr-2" />
                   Activate Groovy Protocol
                 </span>
               </Button>

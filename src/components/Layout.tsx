@@ -4,6 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { ConnectButton } from "thirdweb/react";
+import { client } from "@/helpers/client";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -35,6 +37,7 @@ export default function Layout({ children }: LayoutProps) {
                 { href: "/create", label: "Create" },
                 { href: "/", label: "Explore" },
                 { href: "/agent", label: "Agents" },
+                { href: "/gateway", label: "Gateway" },
               ].map((link) => (
                 <Link
                   key={link.href}
@@ -51,12 +54,10 @@ export default function Layout({ children }: LayoutProps) {
             </div>
 
             <div className="flex items-center space-x-4">
-              <Button variant="ghost" className="text-sm">
-                Log In
-              </Button>
-              <Button className="text-sm bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white">
+              {/* <Button className="text-sm bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white">
                 Get Started
-              </Button>
+              </Button> */}
+              <ConnectButton theme={"light"} client={client} />
             </div>
           </nav>
         </div>
