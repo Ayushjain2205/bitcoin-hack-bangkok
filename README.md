@@ -57,3 +57,5 @@
 🎭 Unique personality-driven agent experiences
 🌟 Recognition for contributions and creativity
 💫 Early access to innovative AI features
+
+## Will be deprecating this soon!
